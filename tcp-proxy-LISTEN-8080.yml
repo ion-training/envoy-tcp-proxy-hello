@@ -1,0 +1,27 @@
+admin:
+  # access_log_path: /dev/stdout
+  address: {socket_address: {address: 0.0.0.0, port_value: 8000}}
+
+static_resources:
+  listeners:
+  - address: {socket_address: {address: 0.0.0.0, port_value: 8080}}
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.tcp_proxy
+        typed_config:
+          '@type': type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy
+          stat_prefix: ingress_tcp
+          cluster: targetCluster
+  clusters:
+  - name: targetCluster
+    connect_timeout: 1s
+    type: static
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: targetCluster
+      endpoints:
+        - lb_endpoints:
+          - endpoint:
+              address: {socket_address: {address: 0.0.0.0, port_value: 8081}}
+          - endpoint:
+              address: {socket_address: {address: 0.0.0.0, port_value: 8082}}
