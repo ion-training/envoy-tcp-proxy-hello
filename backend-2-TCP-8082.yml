@@ -1,0 +1,11 @@
+# https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/direct_response/v3/config.proto
+static_resources:
+  listeners:
+  - address: {socket_address: {address: 0.0.0.0, port_value: 8082}}
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.direct_response
+        typed_config:
+         "@type": type.googleapis.com/envoy.extensions.filters.network.direct_response.v3.Config
+         response:
+           inline_string: "\n\n      Hello backend-222222222    TCP-8082 \n\n\n"
