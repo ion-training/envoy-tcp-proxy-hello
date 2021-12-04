@@ -7,6 +7,26 @@ Clone and cd into repo
 git clone git@github.com:ion-training/envoy-tcp-proxy-hello.git && cd envoy-tcp-proxy-hello
 ```
 
+# Topology
+```
+All communication is on local computer (localhost)                         ###############
+                                                                           #             #
+                                                                           #             #
+                                                          --- TCP-8081 ----->   ENVOY    #
+                                                          |                #             #
+                                     ###############      |                #             #
+                                     #             #      |                ###############
+                                     #             #      |
+   `curl -sL http://localhost:8080` -->   ENVOY  -->------|
+                                     #             #      |
+                                     #             #      |                ###############
+                                     ###############      |                #             #
+                                                          |                #             #
+                                                          --- TCP-8082 ----->   ENVOY    #
+                                                                           #             #
+                                                                           #             #
+                                                                           ###############
+```
 Install envoy via func-e
 ```
 curl -fsSL https://func-e.io/install.sh | sudo bash -s -- -b /usr/local/bin
@@ -40,6 +60,7 @@ pkill envoy
 ```
 
 # Query
+Run one time and then hit up arrow and then again and again
 ```
 curl -sL http://localhost:8080
 ```
